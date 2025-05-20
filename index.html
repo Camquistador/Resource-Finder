@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CareConnect – Resource Finder</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+  <!-- Header -->
+  <header class="bg-white shadow p-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-teal-600">CareConnect</h1>
+    <span class="text-sm text-gray-500">by Cameron Olivier</span>
+  </header>
+
+  <!-- Main -->
+  <main class="p-6 max-w-5xl mx-auto">
+    <section class="mb-6">
+      <h2 class="text-xl font-semibold mb-2">Find a Health Resource</h2>
+      <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="Search by name or type..." 
+        class="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-teal-300"
+      />
+    </section>
+
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-6" id="resultsContainer">
+      <!-- Cards will be injected here -->
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center text-xs text-gray-500 p-4 mt-8">
+    © 2025 CareConnect. This is a fictional project for portfolio use only.
+  </footer>
+
+  <!-- Script -->
+  <script>
+    const data = [
+      {
+        name: "Riverbend Family Clinic",
+        type: "Family Medicine",
+        location: "Pasco, WA",
+        phone: "(509) 555-1122",
+        hours: "Mon-Fri, 8am-5pm"
+      },
+      {
+        name: "Hope Mental Health Center",
+        type: "Mental Health",
+        location: "Kennewick, WA",
+        phone: "(509) 555-2233",
+        hours: "Mon-Sat, 9am-6pm"
+      },
+      {
+        name: "Downtown Urgent Care",
+        type: "Urgent Care",
+        location: "Richland, WA",
+        phone: "(509) 555-3344",
+        hours: "Everyday, 8am-8pm"
+      },
+      {
+        name: "WellSpring Pediatrics",
+        type: "Pediatrics",
+        location: "Yakima, WA",
+        phone: "(509) 555-4455",
+        hours: "Mon-Fri, 8am-4pm"
+      }
+    ];
+
+    const resultsContainer = document.getElementById("resultsContainer");
+    const searchInput = document.getElementById("searchInput");
+
+    function renderCards(filteredData) {
+      resultsContainer.innerHTML = "";
+      filteredData.forEach(resource => {
+        const card = document.createElement("div");
+        card.className = "bg-white rounded-lg shadow-md p-4 border-l-4 border-teal-400";
+        card.innerHTML = `
+          <h3 class="text-lg font-bold text-teal-600">${resource.name}</h3>
+          <p class="text-sm text-gray-700"><strong>Type:</strong> ${resource.type}</p>
+          <p class="text-sm"><strong>Location:</strong> ${resource.location}</p>
+          <p class="text-sm"><strong>Phone:</strong> ${resource.phone}</p>
+          <p class="text-sm"><strong>Hours:</strong> ${resource.hours}</p>
+        `;
+        resultsContainer.appendChild(card);
+      });
+
+      if (filteredData.length === 0) {
+        resultsContainer.innerHTML = "<p class='text-gray-500'>No results found.</p>";
+      }
+    }
+
+    searchInput.addEventListener("input", () => {
+      const searchTerm = searchInput.value.toLowerCase();
+      const filtered = data.filter(item =>
+        item.name.toLowerCase().includes(searchTerm) ||
+        item.type.toLowerCase().includes(searchTerm)
+      );
+      renderCards(filtered);
+    });
+
+    // Initial render
+    renderCards(data);
+  </script>
+
+</body>
+</html>
